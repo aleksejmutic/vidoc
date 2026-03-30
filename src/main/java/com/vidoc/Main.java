@@ -1,4 +1,4 @@
-package org.example;
+package com.vidoc;
 
 public class Main {
     public static void main(String[] args) {

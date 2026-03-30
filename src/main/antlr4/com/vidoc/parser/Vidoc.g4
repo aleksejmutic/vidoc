@@ -1,6 +1,6 @@
 grammar Vidoc;
 
-prog
+program
     : statement+ EOF
     ;
 
@@ -43,7 +43,7 @@ command
 // ─────────────────────────────────────────────
 
 gotoAction
-    : 'goto' stringVal
+    : 'goto' stringValue
     ;
 
 // ─────────────────────────────────────────────
@@ -51,23 +51,23 @@ gotoAction
 // ─────────────────────────────────────────────
 
 clickAction
-    : 'click' selectorVal
+    : 'click' selectorValue
     ;
 
 typeAction
-    : 'type' selectorVal ':' stringOrVar
+    : 'type' selectorValue ':' stringOrVariable
     ;
 
 clearAction
-    : 'clear' selectorVal
+    : 'clear' selectorValue
     ;
 
 hoverAction
-    : 'hover' selectorVal
+    : 'hover' selectorValue
     ;
 
 scrollToAction
-    : 'scrollTo' selectorVal
+    : 'scrollTo' selectorValue
     ;
 
 scrollUpAction
@@ -79,11 +79,11 @@ scrollDownAction
     ;
 
 dragAndDropAction
-    : 'dragAndDrop' selectorVal ':' selectorVal
+    : 'dragAndDrop' selectorValue ':' selectorValue
     ;
 
 selectAction
-    : 'select' selectorVal ':' stringVal
+    : 'select' selectorValue ':' stringValue
     ;
 
 // ─────────────────────────────────────────────
@@ -91,15 +91,15 @@ selectAction
 // ─────────────────────────────────────────────
 
 pressAction
-    : 'press' stringVal
+    : 'press' stringValue
     ;
 
 keyDownAction
-    : 'keyDown' stringVal
+    : 'keyDown' stringValue
     ;
 
 keyUpAction
-    : 'keyUp' stringVal
+    : 'keyUp' stringValue
     ;
 
 // ─────────────────────────────────────────────
@@ -107,7 +107,7 @@ keyUpAction
 // ─────────────────────────────────────────────
 
 waitAction
-    : 'wait' selectorVal
+    : 'wait' selectorValue
     ;
 
 waitForAction
@@ -119,19 +119,19 @@ waitForAction
 // ─────────────────────────────────────────────
 
 assertAction
-    : 'assert' selectorVal ':' stringVal
+    : 'assert' selectorValue ':' stringValue
     ;
 
 assertVisibleAction
-    : 'assertVisible' selectorVal
+    : 'assertVisible' selectorValue
     ;
 
 assertHiddenAction
-    : 'assertHidden' selectorVal
+    : 'assertHidden' selectorValue
     ;
 
 assertUrlAction
-    : 'assertUrl' stringVal
+    : 'assertUrl' stringValue
     ;
 
 // ─────────────────────────────────────────────
@@ -139,11 +139,11 @@ assertUrlAction
 // ─────────────────────────────────────────────
 
 screenshotAction
-    : 'screenshot' selectorVal?
+    : 'screenshot' selectorValue?
     ;
 
 highlightAction
-    : 'highlight' selectorVal
+    : 'highlight' selectorValue
     ;
 
 // ─────────────────────────────────────────────
@@ -151,22 +151,22 @@ highlightAction
 // ─────────────────────────────────────────────
 
 setAction
-    : 'set' VAR ':' stringVal
+    : 'set' VAR ':' stringValue
     ;
 
 // ─────────────────────────────────────────────
 //  VALUE RULES
 // ─────────────────────────────────────────────
 
-selectorVal
+selectorValue
     : STRING
     ;
 
-stringVal
+stringValue
     : STRING
     ;
 
-stringOrVar
+stringOrVariable
     : STRING
     | VAR
     ;
