@@ -1,0 +1,23 @@
+# Go to Wikipedia homepage
+goto "https://www.wikipedia.org/"
+
+# Type into the main search input
+type "#searchInput": "Selenium (software)"
+
+# Press Enter to submit the search
+press "Enter"
+
+# Wait for the page to load
+waitFor 3
+
+# Assert that we landed on the correct article
+assertUrl "https://en.wikipedia.org/wiki/Selenium_(software)"
+
+# Highlight the article title
+highlight "#firstHeading"
+
+# Take a full-page screenshot
+screenshot
+
+# Take a screenshot of the infobox (if present)
+screenshot ".infobox"
