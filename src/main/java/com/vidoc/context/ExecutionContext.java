@@ -24,11 +24,13 @@ public class ExecutionContext {
     private final List<StepResult> steps;
     private final Map<String, String> variables;
     private String pendingComment;          //the comment is pending until we stumble upon the command directly below it, the command the comment refers to
+    private String lastScreenshot;
 
     public ExecutionContext() {
         this.steps = new ArrayList<>();
         this.variables = new HashMap<>();
         this.pendingComment = null;
+        this.lastScreenshot = null;
     }
 
     public void addStep(StepResult step) {
@@ -47,11 +49,21 @@ public class ExecutionContext {
         this.pendingComment = comment;
     }
 
+    public String getLastScreenshot() {
+        return lastScreenshot;
+    }
+
+    public void setLastScreenshot(String lastScreenshot) {
+        this.lastScreenshot = lastScreenshot;
+    }
+
     public String consumePendingComment() {
         String comment = this.pendingComment;
         this.pendingComment = null;
         return comment;
     }
+
+
 
     public List<StepResult> getSteps() {
         return this.steps;

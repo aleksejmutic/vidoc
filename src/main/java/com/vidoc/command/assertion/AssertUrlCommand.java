@@ -1,4 +1,39 @@
 package com.vidoc.command.assertion;
 
-public class AssertUrlCommand {
+import com.vidoc.command.Command;
+import com.vidoc.context.ExecutionContext;
+import org.openqa.selenium.WebDriver;
+
+/**
+ * Asserts that the browser is currently on the expected URL.
+ * Corresponds to: assertUrl "https://myapp.com/dashboard"
+ */
+public class AssertUrlCommand implements Command {
+
+    private final String expectedUrl;
+
+    public AssertUrlCommand(String expectedUrl) {
+        this.expectedUrl = expectedUrl;
+    }
+
+    /**
+     * Checks that the browser's current URL matches the expected URL exactly.
+     * If the URLs do not match, an {@link AssertionError} is thrown showing
+     * both the expected and actual URL.
+     *
+     * @param driver           the Selenium WebDriver instance controlling the browser
+     * @param executionContext  the current execution context holding steps and variables
+     * @throws AssertionError if the current URL does not match the expected URL
+     */
+    @Override
+    public void execute(WebDriver driver, ExecutionContext executionContext) {
+        String actualUrl = driver.getCurrentUrl();
+        if (!actualUrl.equals(this.expectedUrl)) {
+            throw new AssertionError(
+                    "assertUrl failed:" +
+                            "\n  expected: " + this.expectedUrl +
+                            "\n  actual:   " + actualUrl
+            );
+        }
+    }
 }
