@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -11,7 +12,7 @@ import org.openqa.selenium.interactions.Actions;
  * Moves the mouse over a web element identified by a CSS selector.
  * Corresponds to: hover "#selector"
  */
-public class HoverCommand implements Command {
+public class HoverCommand extends BaseCommand {
 
     private final String selector;
 

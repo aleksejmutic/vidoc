@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -11,7 +12,7 @@ import org.openqa.selenium.WebElement;
  * Scrolls the browser until the element identified by the CSS selector is in view.
  * Corresponds to: scrollTo "#selector"
  */
-public class ScrollToCommand implements Command {
+public class ScrollToCommand extends BaseCommand {
 
     private final String selector;
 

@@ -1,5 +1,6 @@
 package com.vidoc.command.variable;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  * Declares a variable and stores it in the execution context.
  * Corresponds to: set $variable : "value"
  */
-public class SetCommand implements Command {
+public class SetCommand extends BaseCommand {
 
     private final String name;
     private final String value;

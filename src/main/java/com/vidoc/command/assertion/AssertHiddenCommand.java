@@ -1,5 +1,6 @@
 package com.vidoc.command.assertion;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebDriver;
  * Asserts that a web element is hidden on the page.
  * Corresponds to: assertHidden "#selector"
  */
-public class AssertHiddenCommand implements Command {
+public class AssertHiddenCommand extends BaseCommand {
 
     private final String selector;
 

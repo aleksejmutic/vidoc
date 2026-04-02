@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -11,7 +12,7 @@ import org.openqa.selenium.WebElement;
  * The value can be a hardcoded string or a variable resolved from the context.
  * Corresponds to: type "#selector" : "value" or type "#selector" : $variable
  */
-public class TypeCommand implements Command {
+public class TypeCommand extends BaseCommand {
 
     private final String selector;
     private final String value;

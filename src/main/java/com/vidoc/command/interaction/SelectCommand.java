@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -10,7 +11,7 @@ import org.openqa.selenium.support.ui.Select;
  * Selects an option from a dropdown element identified by a CSS selector.
  * Corresponds to: select "#selector" : "option"
  */
-public class SelectCommand implements Command {
+public class SelectCommand extends BaseCommand {
 
     private final String selector;
     private final String option;

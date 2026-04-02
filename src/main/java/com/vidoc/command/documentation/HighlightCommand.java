@@ -1,5 +1,6 @@
 package com.vidoc.command.documentation;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -12,7 +13,7 @@ import org.openqa.selenium.WebElement;
  * Used for documentation purposes to draw attention to elements in screenshots.
  * Corresponds to: highlight "#selector"
  */
-public class HighlightCommand implements Command {
+public class HighlightCommand extends BaseCommand {
 
     private final String selector;
 

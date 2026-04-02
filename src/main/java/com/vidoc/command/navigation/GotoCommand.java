@@ -1,5 +1,6 @@
 package com.vidoc.command.navigation;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  * Navigates the browser to the specified URL.
  * Corresponds to: goto "https://myapp.com"
  */
-public class GotoCommand implements Command {
+public class GotoCommand extends BaseCommand {
 
     private final String url;
 

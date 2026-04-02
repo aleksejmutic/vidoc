@@ -1,5 +1,6 @@
 package com.vidoc.command.assertion;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  * Asserts that the browser is currently on the expected URL.
  * Corresponds to: assertUrl "https://myapp.com/dashboard"
  */
-public class AssertUrlCommand implements Command {
+public class AssertUrlCommand extends BaseCommand {
 
     private final String expectedUrl;
 

@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -11,7 +12,7 @@ import org.openqa.selenium.interactions.Actions;
  * Drags an element and drops it onto another element.
  * Corresponds to: dragAndDrop "#source" : "#target"
  */
-public class DragAndDropCommand implements Command {
+public class DragAndDropCommand extends BaseCommand {
 
     private final String sourceSelector;
     private final String targetSelector;

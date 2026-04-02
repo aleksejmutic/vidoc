@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -10,7 +11,7 @@ import org.openqa.selenium.WebElement;
  * Clears the content of an input field identified by a CSS selector.
  * Corresponds to: clear "#selector"
  */
-public class ClearCommand implements Command {
+public class ClearCommand extends BaseCommand {
 
     private final String selector;
 

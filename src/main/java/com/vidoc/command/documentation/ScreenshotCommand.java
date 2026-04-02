@@ -1,5 +1,6 @@
 package com.vidoc.command.documentation;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -15,7 +16,7 @@ import java.io.File;
  * Takes a screenshot of either the full page or a specific element.
  * Corresponds to: screenshot or screenshot "#selector"
  */
-public class ScreenshotCommand implements Command {
+public class ScreenshotCommand extends BaseCommand {
 
     private final String selector;
 

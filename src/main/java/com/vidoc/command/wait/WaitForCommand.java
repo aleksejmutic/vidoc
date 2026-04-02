@@ -1,5 +1,6 @@
 package com.vidoc.command.wait;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.WebDriver;
@@ -8,7 +9,7 @@ import org.openqa.selenium.WebDriver;
  * Pauses execution for a fixed number of seconds.
  * Corresponds to: waitFor 2
  */
-public class WaitForCommand implements Command {
+public class WaitForCommand extends BaseCommand {
 
     private final int seconds;
 

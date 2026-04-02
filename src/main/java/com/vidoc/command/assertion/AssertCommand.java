@@ -1,5 +1,6 @@
 package com.vidoc.command.assertion;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -10,7 +11,7 @@ import org.openqa.selenium.WebElement;
  * Asserts that a web element contains the expected text.
  * Corresponds to: assert "#selector" : "expected text"
  */
-public class AssertCommand implements Command {
+public class AssertCommand extends BaseCommand {
 
     private final String selector;
     private final String expectedText;

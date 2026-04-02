@@ -1,5 +1,6 @@
 package com.vidoc.command.interaction;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -9,7 +10,7 @@ import org.openqa.selenium.WebDriver;
  * Clicks on a web element identified by a CSS selector.
  * Corresponds to: click "#selector"
  */
-public class ClickCommand implements Command {
+public class ClickCommand extends BaseCommand {
 
     private final String selector;
 

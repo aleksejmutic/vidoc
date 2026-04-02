@@ -1,5 +1,6 @@
 package com.vidoc.command.keyboard;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.Keys;
@@ -10,7 +11,7 @@ import org.openqa.selenium.interactions.Actions;
  * Simulates pressing a single keyboard key.
  * Corresponds to: press "Enter"
  */
-public class PressCommand implements Command {
+public class PressCommand extends BaseCommand {
 
     private final String key;
 

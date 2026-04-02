@@ -1,5 +1,6 @@
 package com.vidoc.command.wait;
 
+import com.vidoc.command.BaseCommand;
 import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.By;
@@ -13,7 +14,7 @@ import java.time.Duration;
  * Waits until a web element identified by a CSS selector is present in the DOM.
  * Corresponds to: wait "#selector"
  */
-public class WaitCommand implements Command {
+public class WaitCommand extends BaseCommand {
 
     private final String selector;
 
