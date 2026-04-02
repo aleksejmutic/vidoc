@@ -50,7 +50,7 @@ public class VidocScriptVisitor extends VidocBaseListener {
     }
 
     /**
-     * Returns the list of commands built from walking the AST.
+     * Returns the list of commands built from walking the ASTa.
      * Called after the parse tree walk is complete.
      */
     public List<Command> getCommands() {
