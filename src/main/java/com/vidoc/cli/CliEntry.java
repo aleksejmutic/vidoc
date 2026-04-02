@@ -21,18 +21,22 @@ import java.util.List;
 /**
  * Entry point for the Vidoc command line interface.
  * <p>
- * This class is annotated with picocli's {@code @Command} and implements
- * {@link Runnable} so that picocli can parse the CLI arguments and invoke
- * {@link #run()} automatically. All flags, options and parameters are declared
- * as annotated fields and populated by picocli before {@link #run()} is called.
- * <p>
  * Example usage:
  * <pre>
- *   vidoc login.visc --html
- *   vidoc login.visc --browser BRAVE --all
- *   vidoc login.visc --pdf --video --format WEBM
- *   vidoc login.visc --html --theme EARTHY --output ./docs
+ *   vidoc login.visc --report
+ *   vidoc login.visc --present
+ *   vidoc login.visc --browser BRAVE --report --pdf --video
+ *   vidoc login.visc --all
+ *   vidoc login.visc --report --theme EARTHY --output ./docs
  * </pre>
+ * <p>
+ * HTML output modes:
+ * <ul>
+ *   <li>{@code --report} — command name as title, comment below, pass/fail badge</li>
+ *   <li>{@code --present} — comment only beside the screenshot, no status indicators</li>
+ * </ul>
+ * Both flags can be used together; they will produce separate output files
+ * named {@code report.html} and {@code presentation.html} respectively.
  */
 @picocli.CommandLine.Command(
         name = "vidoc",
@@ -42,90 +46,50 @@ import java.util.List;
 )
 public class CliEntry implements Runnable {
 
-    /**
-     * Path to the .visc script file to execute.
-     * This is a required positional argument — it must always be provided.
-     */
     @Parameters(index = "0", description = "Path to the .visc script to run")
     private String scriptPath;
 
-    /**
-     * The browser to launch for script execution.
-     * Supported values: CHROME, FIREFOX, BRAVE, SAFARI.
-     * Defaults to CHROME if not specified.
-     */
     @Option(names = "--browser", description = "Browser to use: CHROME, FIREFOX, BRAVE, SAFARI. Default: CHROME", defaultValue = "CHROME")
     private BrowserType browser;
 
     /**
-     * If set, an interactive HTML presentation will be generated after execution.
-     * Can be combined with --pdf and --video, or replaced by --all.
+     * Generates a report-style HTML file.
+     * Each slide shows the command name as a title, the script comment below it,
+     * and a pass/fail badge. Good for sharing execution results with stakeholders.
      */
-    @Option(names = "--html", description = "Generate an HTML presentation")
-    private boolean html;
+    @Option(names = "--report", description = "Generate an HTML report (command name + comment + pass/fail badge)")
+    private boolean report;
 
     /**
-     * If set, a PDF report will be generated after execution.
-     * Can be combined with --html and --video, or replaced by --all.
+     * Generates a presentation-style HTML file.
+     * Each slide shows only the script comment beside the screenshot, vertically
+     * centered, with no status indicators. Good for live demos.
      */
+    @Option(names = "--present", description = "Generate an HTML presentation (comment only, no status indicators)")
+    private boolean present;
+
     @Option(names = "--pdf", description = "Generate a PDF report")
     private boolean pdf;
 
-    /**
-     * If set, a video recording will be generated after execution.
-     * The format is controlled by the --format flag.
-     * Can be combined with --html and --pdf, or replaced by --all.
-     */
     @Option(names = "--video", description = "Generate a video recording")
     private boolean video;
 
     /**
-     * Shorthand for enabling all output formats at once.
-     * Equivalent to passing --html --pdf --video together.
+     * Shorthand that enables report HTML, PDF and video at once.
+     * Equivalent to passing --report --pdf --video together.
      */
-    @Option(names = "--all", description = "Generate all output formats")
+    @Option(names = "--all", description = "Generate all output formats (report HTML + PDF + video)")
     private boolean all;
 
-    /**
-     * The visual theme to use for the HTML presentation.
-     * Supported values: PROFESSIONAL, CASUAL, EARTHY.
-     * Defaults to PROFESSIONAL if not specified.
-     * Has no effect if --html or --all is not set.
-     */
     @Option(names = "--theme", description = "HTML theme: PROFESSIONAL, CASUAL, EARTHY. Default: PROFESSIONAL", defaultValue = "PROFESSIONAL")
     private HtmlTheme theme;
 
-    /**
-     * The video format to use when generating a video recording.
-     * Supported values: MP4, WEBM, GIF.
-     * Defaults to MP4 if not specified.
-     * Has no effect if --video or --all is not set.
-     */
     @Option(names = "--format", description = "Video format: MP4, WEBM, GIF. Default: MP4", defaultValue = "MP4")
     private VideoFormat format;
 
-    /**
-     * The directory where all generated output files will be saved.
-     * The directory will be created if it does not exist.
-     * Defaults to ./output in the current working directory.
-     */
     @Option(names = "--output", description = "Output directory for generated files. Default: ./output", defaultValue = "./output")
     private String outputPath;
 
-    /**
-     * Main execution method invoked by picocli after all arguments are parsed.
-     * <p>
-     * Orchestrates the full Vidoc pipeline in order:
-     * <ol>
-     *   <li>Creates a WebDriver instance for the specified browser</li>
-     *   <li>Creates a fresh ExecutionContext to accumulate steps and variables</li>
-     *   <li>Parses the .visc script into a list of Command objects</li>
-     *   <li>Runs the ExecutionEngine which executes each command sequentially</li>
-     *   <li>Runs the selected generators to produce the output files</li>
-     * </ol>
-     * The WebDriver is always closed in the finally block even if an error occurs,
-     * so the browser is never left open after execution finishes.
-     */
     @Override
     public void run() {
         WebDriver driver = null;
@@ -140,14 +104,19 @@ public class CliEntry implements Runnable {
             ExecutionEngine engine = new ExecutionEngine();
             engine.run(commands, driver, executionContext);
 
-            if (isHtml()) {
-                new HtmlGenerator(this.theme).generate(executionContext, this.outputPath);
+            if (isReport()) {
+                HtmlGenerator gen = new HtmlGenerator(this.theme, HtmlGenerator.Mode.REPORT);
+                gen.generate(executionContext, this.outputPath, "report.html");
+            }
+            if (isPresent()) {
+                HtmlGenerator gen = new HtmlGenerator(this.theme, HtmlGenerator.Mode.PRESENT);
+                gen.generate(executionContext, this.outputPath, "presentation.html");
             }
             if (isPdf()) {
-                new PdfGenerator().generate(executionContext, this.outputPath);
+                new PdfGenerator().generate(executionContext, this.outputPath, "report.pdf");
             }
             if (isVideo()) {
-                new VideoGenerator(this.format).generate(executionContext, this.outputPath);
+                new VideoGenerator(this.format).generate(executionContext, this.outputPath, "recording.mp4");
             }
 
         } catch (IOException e) {
@@ -159,51 +128,18 @@ public class CliEntry implements Runnable {
         }
     }
 
-    /**
-     * Returns the path to the .visc script provided as a CLI argument.
-     *
-     * @return the script file path
-     */
-    public String getScriptPath() {
-        return this.scriptPath;
-    }
+    public String getScriptPath()  { return this.scriptPath; }
+    public BrowserType getBrowser() { return this.browser; }
 
-    /**
-     * Returns the browser type selected via the --browser flag.
-     *
-     * @return the selected BrowserType
-     */
-    public BrowserType getBrowser() {
-        return this.browser;
-    }
+    /** True when --report or --all is passed. */
+    public boolean isReport()   { return this.report || this.all; }
 
-    /**
-     * Returns true if an HTML presentation should be generated.
-     * This is true when either --html or --all is passed.
-     *
-     * @return true if HTML output is requested
-     */
-    public boolean isHtml() {
-        return this.html || this.all;
-    }
+    /** True when --present is passed. */
+    public boolean isPresent()  { return this.present; }
 
-    /**
-     * Returns true if a PDF report should be generated.
-     * This is true when either --pdf or --all is passed.
-     *
-     * @return true if PDF output is requested
-     */
-    public boolean isPdf() {
-        return this.pdf || this.all;
-    }
+    /** True when --pdf or --all is passed. */
+    public boolean isPdf()      { return this.pdf || this.all; }
 
-    /**
-     * Returns true if a video recording should be generated.
-     * This is true when either --video or --all is passed.
-     *
-     * @return true if video output is requested
-     */
-    public boolean isVideo() {
-        return this.video || this.all;
-    }
+    /** True when --video or --all is passed. */
+    public boolean isVideo()    { return this.video || this.all; }
 }

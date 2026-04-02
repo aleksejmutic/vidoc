@@ -16,5 +16,5 @@ public interface DocumentGenerator {
      * @param executionContext the completed context containing all steps and screenshots
      * @param outputPath       the directory where the output file should be saved
      */
-    void generate(ExecutionContext executionContext, String outputPath);
+    void generate(ExecutionContext executionContext, String outputPath, String fileName);
 }

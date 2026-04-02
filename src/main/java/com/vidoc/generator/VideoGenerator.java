@@ -52,13 +52,13 @@ public class VideoGenerator implements DocumentGenerator {
      * @throws RuntimeException if the video cannot be generated
      */
     @Override
-    public void generate(ExecutionContext executionContext, String outputPath) {
+    public void generate(ExecutionContext executionContext, String outputPath, String fileName) {
         List<StepResult> steps = executionContext.getSteps();
         if (steps.isEmpty()) {
             System.out.println("No steps to generate video from.");
             return;
         }
-        new File(outputPath).mkdirs();
+        new File(outputPath + fileName).mkdirs();
         try {
             if (this.format == VideoFormat.GIF) {
                 generateGif(steps, outputPath);

@@ -1,0 +1,15 @@
+goto "https://www.amazon.com/"
+
+type "#twotabsearchtextbox": "laptop"
+
+press "Enter"
+
+waitFor 4
+
+assertUrlContains "s?k="
+
+highlight ".s-main-slot"
+
+screenshot
+
+screenshot ".s-result-item"

@@ -53,7 +53,7 @@ public class PdfGenerator implements DocumentGenerator {
      * @throws RuntimeException if the PDF cannot be written
      */
     @Override
-    public void generate(ExecutionContext executionContext, String outputPath) {
+    public void generate(ExecutionContext executionContext, String outputPath, String fileName) {
         List<StepResult> steps = executionContext.getSteps();
         if (steps.isEmpty()) {
             System.out.println("No steps to generate PDF from.");
@@ -61,7 +61,7 @@ public class PdfGenerator implements DocumentGenerator {
         }
         try {
             new File(outputPath).mkdirs();
-            String filePath = outputPath + "/report.pdf";
+            String filePath = outputPath + "/" + fileName;
             Document document = new Document(PageSize.A4.rotate(), 36, 36, 36, 36);
             PdfWriter.getInstance(document, new FileOutputStream(filePath));
             document.open();
