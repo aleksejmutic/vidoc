@@ -135,7 +135,7 @@ public class CliEntry implements Runnable {
     public boolean isReport()   { return this.report || this.all; }
 
     /** True when --present is passed. */
-    public boolean isPresent()  { return this.present; }
+    public boolean isPresent()  { return this.present || this.all; }
 
     /** True when --pdf or --all is passed. */
     public boolean isPdf()      { return this.pdf || this.all; }

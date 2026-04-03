@@ -31,13 +31,13 @@ public class BrowserFactory {
      * @throws IllegalStateException    if Brave is selected but cannot be found on the system
      */
     public static WebDriver create(BrowserType type) {
-        switch (type) {
-            case CHROME:  return new ChromeDriver();
-            case FIREFOX: return new FirefoxDriver();
-            case BRAVE:   return createBrave();
-            case SAFARI:  return new SafariDriver();
-            default: throw new IllegalArgumentException("Unsupported browser: " + type);
-        }
+        return switch (type) {
+            case CHROME -> new ChromeDriver();
+            case FIREFOX -> new FirefoxDriver();
+            case BRAVE -> createBrave();
+            case SAFARI -> new SafariDriver();
+            default -> throw new IllegalArgumentException("Unsupported browser: " + type);
+        };
     }
 
     /**

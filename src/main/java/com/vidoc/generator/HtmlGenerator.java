@@ -19,16 +19,14 @@ import java.util.List;
  *   <li><b>Present mode</b>: Shows only the comment text, vertically centered beside
  *       the screenshot, with no status indicators. Intended for live demos.</li>
  * </ul>
- * In both modes, screenshots are fixed to 70% of the viewport height and
- * the right-side panel is vertically centered next to them.
+ * In both modes the layout is always two columns: screenshot on the left,
+ * info panel on the right. When a step has no screenshot the left column
+ * is still rendered (empty) so the info panel never drifts to the left.
  */
 public class HtmlGenerator implements DocumentGenerator {
 
-    /** Controls which visual mode is used when rendering slides. */
     public enum Mode {
-        /** Full report: command name title + comment + pass/fail badge. */
         REPORT,
-        /** Clean presentation: comment only, no status indicators. */
         PRESENT
     }
 
@@ -61,6 +59,7 @@ public class HtmlGenerator implements DocumentGenerator {
 
     private String buildHtml(List<StepResult> steps) throws IOException {
         StringBuilder slides = new StringBuilder();
+
         for (int i = 0; i < steps.size(); i++) {
             StepResult step = steps.get(i);
             String imageBase64 = encodeImage(step.getScreenshotPath());
@@ -79,30 +78,32 @@ public class HtmlGenerator implements DocumentGenerator {
                 slides.append("</div>");
             }
 
-            // ── Body: screenshot + right panel ───────────────────────────────
+            // ── Body: always two columns ─────────────────────────────────────
             slides.append("<div class='slide-body'>");
 
-            // Screenshot
+            // Left column: screenshot container is ALWAYS rendered.
+            // When there is no screenshot it stays empty, which keeps the
+            // info panel anchored to the right side in every slide.
+            slides.append("<div class='screenshot-container'>");
             if (imageBase64 != null) {
-                slides.append("<div class='screenshot-container'>");
-                slides.append("<img src='data:image/png;base64,").append(imageBase64).append("' class='screenshot'/>");
-                slides.append("</div>");
+                slides.append("<img src='data:image/png;base64,")
+                        .append(imageBase64)
+                        .append("' class='screenshot'/>");
             }
+            slides.append("</div>");
 
-            // Right panel
+            // Right column: info panel
             slides.append("<div class='info-panel'>");
             if (mode == Mode.REPORT) {
-                // Command name as title, comment below
                 slides.append("<p class='command-name'>").append(step.getCommandName()).append("</p>");
                 if (!comment.isBlank()) {
                     slides.append("<p class='comment'>").append(comment).append("</p>");
                 }
-                // Error message if failed
                 if (!success && step.getErrorMessage() != null) {
                     slides.append("<div class='error-message'>").append(step.getErrorMessage()).append("</div>");
                 }
             } else {
-                // Present mode: only the comment, vertically centered via CSS
+                // Present mode: comment only, vertically centered via CSS
                 if (!comment.isBlank()) {
                     slides.append("<p class='comment'>").append(comment).append("</p>");
                 }
@@ -111,7 +112,7 @@ public class HtmlGenerator implements DocumentGenerator {
 
             slides.append("</div>"); // slide-body
 
-            // ── Footer: navigation buttons ───────────────────────────────────
+            // ── Footer: navigation ───────────────────────────────────────────
             slides.append("<div class='slide-footer'>");
             if (i > 0) {
                 slides.append("<button class='btn btn-prev' onclick='goTo(").append(i - 1).append(")'>← Previous</button>");
@@ -150,18 +151,15 @@ public class HtmlGenerator implements DocumentGenerator {
                 "</html>";
     }
 
-    /**
-     * Layout CSS that is the same regardless of theme.
-     * Controls the two-column slide layout, fixed image height,
-     * and vertical centering of the info panel.
-     */
     private String buildLayoutCss() {
         return "\n" +
-                "/* ── Layout overrides ────────────────────────────────────── */\n" +
-                ".presentation { max-width: 100%; margin: 0; padding: 0; background: inherit; }\n" +
+                "/* ── Layout ─────────────────────────────────────────────── */\n" +
+                ".presentation { max-width: 100%; margin: 0; padding: 0; }\n" +
                 ".slide { display: none; flex-direction: column; min-height: 100vh;\n" +
                 "         padding: 1.5rem 2rem; box-sizing: border-box; }\n" +
                 ".slide.active { display: flex; }\n" +
+
+                /* always two columns, items vertically centered */
                 ".slide-body {\n" +
                 "  display: flex;\n" +
                 "  flex-direction: row;\n" +
@@ -169,14 +167,19 @@ public class HtmlGenerator implements DocumentGenerator {
                 "  gap: 2rem;\n" +
                 "  flex: 1;\n" +
                 "}\n" +
+
+                /* left column: fixed proportion, centers the image */
                 ".screenshot-container {\n" +
                 "  flex: 3;\n" +
                 "  display: flex;\n" +
                 "  justify-content: center;\n" +
                 "  align-items: center;\n" +
+                "  align-self: stretch;\n" +
                 "}\n" +
+
+                /* the image itself: capped at 70vh, never overflows */
                 ".screenshot {\n" +
-                "  height: 70vh;\n" +
+                "  max-height: 70vh;\n" +
                 "  width: auto;\n" +
                 "  max-width: 100%;\n" +
                 "  object-fit: contain;\n" +
@@ -184,15 +187,18 @@ public class HtmlGenerator implements DocumentGenerator {
                 "  border: 1px solid rgba(0,0,0,0.1);\n" +
                 "  box-shadow: 0 4px 24px rgba(0,0,0,0.15);\n" +
                 "}\n" +
+
+                /* right column: always present, content vertically centered */
                 ".info-panel {\n" +
                 "  flex: 1;\n" +
                 "  display: flex;\n" +
                 "  flex-direction: column;\n" +
-                "  justify-content: center;\n" +   // vertical centering
-                "  align-self: stretch;\n" +        // stretch to match screenshot height
+                "  justify-content: center;\n" +
+                "  align-self: stretch;\n" +
                 "  padding: 1rem;\n" +
                 "  gap: 0.75rem;\n" +
                 "}\n" +
+
                 ".command-name {\n" +
                 "  font-size: 0.8rem;\n" +
                 "  font-weight: 700;\n" +
