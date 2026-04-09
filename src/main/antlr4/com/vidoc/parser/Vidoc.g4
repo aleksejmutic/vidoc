@@ -36,7 +36,14 @@ command
     | screenshotAction
     | highlightAction
     | setAction
+    | screenshotModeAction
     ;
+
+// ─────────────────────────────────────────────
+//  EXPLICIT TOKENS FOR MODES OF SCREENSHOTS
+// ─────────────────────────────────────────────
+SCREENSHOT_ALL    : '"all"' ;
+SCREENSHOT_MANUAL : '"manual"' ;
 
 // ─────────────────────────────────────────────
 //  NAVIGATION
@@ -146,6 +153,9 @@ highlightAction
     : 'highlight' selectorValue
     ;
 
+screenshotModeAction
+    : 'screenshotmode' (SCREENSHOT_ALL | SCREENSHOT_MANUAL)
+    ;
 // ─────────────────────────────────────────────
 //  VARIABLES
 // ─────────────────────────────────────────────
