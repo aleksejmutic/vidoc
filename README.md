@@ -180,7 +180,7 @@ screenshot ".infobox"
 6. The **documentation generator** combines comments + screenshots into the chosen output format
 
 ```
-your .visc script
+  Your .visc script
       ↓
   ANTLR lexer → tokens
       ↓
