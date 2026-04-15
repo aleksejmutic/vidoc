@@ -124,32 +124,29 @@ highlight "#selector"
 ## Example Script
 
 ```
-# Define reusable variables
-set $username : "admin"
-set $password : "secret123"
+# Go to Wikipedia homepage
+goto "https://www.wikipedia.org/"
 
-# Navigate to the login page
-goto "https://myapp.com/login"
+# Type into the main search input
+type "#searchInput": "Selenium (software)"
 
-# Take a screenshot of the login form
-screenshot "#login-form"
+# Press Enter to submit the search
+press "Enter"
 
-# Enter credentials
-type "#username" : $username
-type "#password" : $password
+# Wait for the page to load
+waitFor 3
 
-# Submit the form
-click "#login-btn"
+# Assert that we landed on the correct article
+assertUrl "https://en.wikipedia.org/wiki/Selenium_(software)"
 
-# Wait for the dashboard to appear
-wait "#dashboard"
+# Highlight the article title
+highlight "#firstHeading"
 
-# Verify successful login
-assert "#welcome-msg" : "Welcome, admin"
-assertVisible "#logout-btn"
-
-# Take a full page screenshot
+# Take a full-page screenshot
 screenshot
+
+# Take a screenshot of the infobox (if present)
+screenshot ".infobox"
 ```
 
 ---
