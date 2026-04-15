@@ -1,6 +1,6 @@
 # Vidoc
 
-**Vidoc** is a domain-specific language (DSL) for scripting browser interactions via Selenium, with built-in support for generating human-readable documentation from your scripts. Write a `.visc` script, run it, and Vidoc will execute every step in a real browser while producing an HTML presentation, a PDF report, and optionally a video recording — all annotated with your comments.
+**Vidoc** s a documentation generator for browser workflows that executes your steps in a browser and turns them into visual, shareable reports. Write a `.visc` script, run it, and Vidoc will execute every step in a browser while producing an HTML presentation, a PDF report, and optionally a video recording — all annotated with your comments.
 
 ---
 
@@ -151,6 +151,14 @@ assertVisible "#logout-btn"
 # Take a full page screenshot
 screenshot
 ```
+
+---
+
+## Example Output
+
+<div align="center">
+  <img src="https://i.imgur.com/yy0uEbs.png" width="900"/>
+</div>
 
 ---
 
