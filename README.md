@@ -39,9 +39,9 @@ Vidoc can generate the following outputs from a single `.visc` script, controlle
 | `--all` | All three outputs at once |
 
 ```bash
-vidoc run login.visc --all
-vidoc run checkout.visc --html --pdf
-vidoc run search.visc --video
+vidoc login.visc --all
+vidoc checkout.visc --html --pdf
+vidoc search.visc --video
 ```
 
 ---
