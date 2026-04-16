@@ -121,7 +121,7 @@ highlight "#selector"
 
 ---
 
-## Example Script
+## Example Script (test.visc)
 
 ```
 # Go to Wikipedia homepage
@@ -148,6 +148,11 @@ screenshot
 # Take a screenshot of the infobox (if present)
 screenshot ".infobox"
 ```
+
+
+## Command example
+
+vidoc test.visc --all --theme EARTHY
 
 ---
 
