@@ -20,6 +20,8 @@ public class ClickCommand extends BaseCommand {
 
     @Override
     public void execute(WebDriver driver, ExecutionContext executionContext) {
-        driver.findElement(By.cssSelector(this.selector)).click();
+        var el = driver.findElement(By.cssSelector(this.selector));
+        ((org.openqa.selenium.JavascriptExecutor) driver)
+                .executeScript("arguments[0].click();", el);
     }
 }

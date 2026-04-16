@@ -1,7 +1,6 @@
 package com.vidoc.command.assertion;
 
 import com.vidoc.command.BaseCommand;
-import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.WebDriver;
 
@@ -11,10 +10,10 @@ import org.openqa.selenium.WebDriver;
  */
 public class AssertUrlCommand extends BaseCommand {
 
-    private final String expectedUrl;
+    private final String expectedUrlFragment;
 
     public AssertUrlCommand(String expectedUrl) {
-        this.expectedUrl = expectedUrl;
+        this.expectedUrlFragment = expectedUrl;
     }
 
     /**
@@ -29,10 +28,10 @@ public class AssertUrlCommand extends BaseCommand {
     @Override
     public void execute(WebDriver driver, ExecutionContext executionContext) {
         String actualUrl = driver.getCurrentUrl();
-        if (!actualUrl.equals(this.expectedUrl)) {
+        if (!actualUrl.contains(this.expectedUrlFragment)) {
             throw new AssertionError(
                     "assertUrl failed:" +
-                            "\n  expected: " + this.expectedUrl +
+                            "\n  expected: " + this.expectedUrlFragment +
                             "\n  actual:   " + actualUrl
             );
         }

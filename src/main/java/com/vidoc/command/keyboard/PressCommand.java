@@ -1,11 +1,9 @@
 package com.vidoc.command.keyboard;
 
 import com.vidoc.command.BaseCommand;
-import com.vidoc.command.Command;
 import com.vidoc.context.ExecutionContext;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.interactions.Actions;
 
 /**
  * Simulates pressing a single keyboard key.
@@ -30,6 +28,7 @@ public class PressCommand extends BaseCommand {
     @Override
     public void execute(WebDriver driver, ExecutionContext executionContext) {
         Keys seleniumKey = Keys.valueOf(this.key.toUpperCase());
-        new Actions(driver).sendKeys(seleniumKey).perform();
+
+        driver.switchTo().activeElement().sendKeys(seleniumKey);
     }
 }
