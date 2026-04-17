@@ -6,7 +6,7 @@
 
 ## What Problem Does It Solve?
 
-Writing automated browser tests is one thing. Documenting what those tests do, in a way that non-technical stakeholders can read and understand, is another problem entirely. Vidoc solves both at once.
+Writing automated browser tests is one thing. Documenting what those tests do, in a way that non-technical people can read and understand, is another problem entirely. Vidoc solves both at once.
 
 You write one script. Vidoc runs it and generates the documentation for you.
 
