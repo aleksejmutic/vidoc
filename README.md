@@ -32,7 +32,7 @@ The comments you write become step descriptions in the generated output. The scr
 ### Output Format Flags
 
 | Flag | Output |
-|------|--------|
+|--------|--------|
 | `--report` | HTML report with command names, comments, and pass/fail badges — good for sharing results with stakeholders |
 | `--present` | HTML presentation with comments beside screenshots only, no status indicators — good for live demos |
 | `--pdf` | PDF report with the same content as the HTML report, suitable for sharing |
